@@ -4,6 +4,7 @@
 (function () {
   const WB = window.WB;
   const { store, util } = WB;
+  let showDoneTasks = false; // 是否展开「已完成」任务以便撤销
 
   function ensureDailyReset() {
     const d = store.get();
@@ -51,18 +52,24 @@
         }).join('')
       : `<div class="empty">还没有添加考试，在下方添加你的备考目标吧～</div>`;
 
-    // 每日任务
+    // 今日清单：完成的任务默认隐去（做完了就没有），可展开查看/撤销
     const tasks = exam.dailyTasks;
-    const taskRows = tasks.length
-      ? tasks.map((t) => `
-        <div class="row">
-          <input type="checkbox" class="chk" data-task="${t.id}" ${t.done ? 'checked' : ''}>
-          <div class="grow">
-            <div class="title" style="${t.done ? 'text-decoration:line-through;color:var(--ink-faint)' : ''}">${util.escape(t.text)}</div>
-          </div>
-          <button class="btn ghost sm" data-del-task="${t.id}">删除</button>
-        </div>`).join('')
-      : `<div class="empty">还没有每日任务，添加一条吧～</div>`;
+    const activeTasks = tasks.filter((t) => !t.done);
+    const doneTasks = tasks.filter((t) => t.done);
+    const taskRowHtml = (t) => `
+      <div class="row">
+        <input type="checkbox" class="chk" data-task="${t.id}" ${t.done ? 'checked' : ''}>
+        <div class="grow">
+          <div class="title" style="${t.done ? 'text-decoration:line-through;color:var(--ink-faint)' : ''}">${util.escape(t.text)}</div>
+        </div>
+        <button class="btn ghost sm" data-del-task="${t.id}">删除</button>
+      </div>`;
+    const taskRows = activeTasks.length
+      ? activeTasks.map(taskRowHtml).join('')
+      : `<div class="empty">${doneTasks.length ? '今日任务都完成啦 🎉' : '还没有今日任务，添加一条吧～'}</div>`;
+    const doneRows = (showDoneTasks && doneTasks.length)
+      ? doneTasks.map(taskRowHtml).join('')
+      : '';
 
     const todayLog = exam.dailyLog[today] || { done: 0, total: tasks.length };
     const rate = todayLog.total ? Math.round((todayLog.done / todayLog.total) * 100) : 0;
@@ -106,9 +113,11 @@
       <div class="grid" style="margin-top:18px">
         <div class="card">
           <div class="section-head">
-            <h3 style="margin:0"><span class="dot"></span>每日任务清单</h3>
+            <h3 style="margin:0"><span class="dot"></span>今日清单</h3>
+            ${doneTasks.length ? `<button class="btn ghost sm" id="toggle-done">${showDoneTasks ? '隐藏已完成' : '显示已完成 (' + doneTasks.length + ')'}</button>` : ''}
           </div>
           <div class="list" style="margin-top:6px">${taskRows}</div>
+          ${doneRows ? `<div class="list" style="margin-top:8px;opacity:.85">${doneRows}</div>` : ''}
           <div class="form-row" style="margin-top:14px">
             <div style="flex:3"><input type="text" id="task-input" placeholder="例如：背单词 30 个 / 做一套真题"></div>
             <div style="flex:0 0 auto"><button class="btn" id="task-add">添加任务</button></div>
@@ -158,6 +167,8 @@
       exam.dailyTasks = exam.dailyTasks.filter((t) => t.id !== b.dataset.delTask);
       store.save(); render(container);
     });
+    const toggleBtn = $('#toggle-done');
+    if (toggleBtn) toggleBtn.onclick = () => { showDoneTasks = !showDoneTasks; render(container); };
     $$('[data-task]').forEach((c) => c.onchange = () => {
       const t = exam.dailyTasks.find((x) => x.id === c.dataset.task);
       if (t) { t.done = c.checked; }
