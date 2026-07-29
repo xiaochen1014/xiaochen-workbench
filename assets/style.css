@@ -339,20 +339,20 @@ table.tbl tr:hover td { background: var(--panel-2); }
 @media (max-width: 760px) {
   #app { flex-direction: row; height: 100vh; }
   .sidebar {
-    order: 0; width: 92px; flex: 0 0 92px;
+    order: 0; width: 70px; flex: 0 0 70px;
     flex-direction: column;
     border-right: 1px solid var(--line); border-top: none;
-    padding: 14px 8px;
+    padding: 14px 6px;
     background: linear-gradient(180deg, #f8f4ec 0%, #f1ebe2 100%);
     align-items: stretch; gap: 4px;
   }
   .brand { display: none; }
   .nav { flex-direction: column; flex: 1; gap: 6px; overflow-y: auto; }
   .nav-item {
-    flex-direction: column; gap: 3px; flex: none; width: 100%;
-    padding: 10px 2px; font-size: 11px; border-radius: 12px; text-align: center;
+    flex-direction: column; gap: 2px; flex: none; width: 100%;
+    padding: 9px 1px; font-size: 10px; border-radius: 12px; text-align: center;
   }
-  .nav-ico { font-size: 19px; width: auto; }
+  .nav-ico { font-size: 17px; width: auto; }
   .sidebar-foot { display: none; }
   .main { order: 1; }
   .topbar { padding: 0 16px; height: 52px; }
@@ -362,5 +362,5 @@ table.tbl tr:hover td { background: var(--panel-2); }
   .countdown .num { font-size: 38px; }
 }
 @media (max-width: 760px) and (orientation: landscape) {
-  .sidebar { width: 96px; flex-basis: 96px; }
+  .sidebar { width: 76px; flex-basis: 76px; }
 }
