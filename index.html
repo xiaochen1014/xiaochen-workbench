@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <meta name="theme-color" content="#f48fb1" />
+  <meta name="apple-mobile-web-app-capable" content="yes" />
+  <meta name="mobile-web-app-capable" content="yes" />
+  <meta name="apple-mobile-web-app-status-bar-style" content="default" />
+  <meta name="apple-mobile-web-app-title" content="小陈工作台" />
+  <link rel="manifest" href="manifest.webmanifest" />
+  <link rel="apple-touch-icon" href="assets/icons/apple-touch-icon.png" />
+  <link rel="icon" href="assets/icons/icon-192.png" />
+  <title>小陈的工作台</title>
+  <link rel="stylesheet" href="assets/style.css" />
+  <!-- ECharts (本地优先,离线可用;边界数据来自高德/DataV,符合地图规范) -->
+  <script src="assets/vendor/echarts.min.js"></script>
+  <script>window.echarts || document.write('<script src="https://cdn.jsdelivr.net/npm/echarts@5.5.1/dist/echarts.min.js"><\/script>');</script>
+</head>
+<body>
+  <div id="app">
+    <aside class="sidebar">
+      <div class="brand">
+        <div class="brand-logo">陈</div>
+        <div class="brand-text">
+          <div class="brand-title">小陈的工作台</div>
+          <div class="brand-sub">Workbench</div>
+        </div>
+      </div>
+      <nav class="nav">
+        <button class="nav-item active" data-section="exam"><span class="nav-ico">📚</span>备考指南</button>
+        <button class="nav-item" data-section="health"><span class="nav-ico">🌿</span>健康生活</button>
+        <button class="nav-item" data-section="savings"><span class="nav-ico">💰</span>存钱计划</button>
+        <button class="nav-item" data-section="travel"><span class="nav-ico">🗺️</span>旅游日记</button>
+        <button class="nav-item" data-section="goals"><span class="nav-ico">🎯</span>目标</button>
+        <button class="nav-item" data-section="review"><span class="nav-ico">📝</span>每周复盘</button>
+      </nav>
+      <div class="sidebar-foot">
+        <button id="export-btn" title="导出全部数据">⬇ 导出</button>
+        <button id="import-btn" title="导入数据">⬆ 导入</button>
+        <input type="file" id="import-file" accept="application/json" hidden />
+      </div>
+    </aside>
+    <main class="main">
+      <header class="topbar">
+        <div class="topbar-title" id="section-title">备考指南</div>
+        <div class="topbar-right">
+          <button id="export-btn-top" class="top-btn" title="导出全部数据">⬇</button>
+          <button id="import-btn-top" class="top-btn" title="导入数据">⬆</button>
+          <input type="file" id="import-file" accept="application/json" hidden />
+          <div class="topbar-date" id="topbar-date"></div>
+        </div>
+      </header>
+      <section class="content" id="content"></section>
+    </main>
+  </div>
+  <div id="toast" class="toast"></div>
+  <script src="assets/store.js"></script>
+  <script src="assets/sections/exam.js"></script>
+  <script src="assets/sections/health.js"></script>
+  <script src="assets/sections/savings.js"></script>
+  <script src="assets/sections/travel.js"></script>
+  <script src="assets/sections/goals.js"></script>
+  <script src="assets/sections/review.js"></script>
+  <script src="assets/app.js"></script>
+</body>
+</html>
