@@ -1,5 +1,5 @@
 /* 小陈的工作台 — Service Worker（PWA 离线缓存） */
-const CACHE = 'xc-workbench-v2';
+const CACHE = 'xc-workbench-v3';
 const SHELL = [
   './',
   'index.html',
